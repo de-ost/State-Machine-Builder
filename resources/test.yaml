@@ -1,0 +1,22 @@
+states:
+  - "q1"
+  - "q2"
+  - "q3"
+input_alphabet:
+  - "0"
+  - "1"
+transitions:
+  - current_state: "q1"
+    read_symbol: ["0"]
+    new_state: "q2"
+  - current_state: "q2"
+    read_symbol: ["1"]
+    new_state: "q3"
+output_function:
+  - current_state: q1
+    output_symbol: "0"
+start_state: "q1"
+end_states:
+  - "q3"
+output_alphabet:
+  - "5"

@@ -1,0 +1,5 @@
+if (/*CODE:IF*/)
+{
+/*CODE:SET_OUTPUT*/
+/*CODE:SET_NEW_STATE*/
+}
