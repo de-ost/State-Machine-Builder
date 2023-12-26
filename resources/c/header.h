@@ -1,6 +1,7 @@
 #pragma once
 
-enum sm_states_/*CODE:NAME*/ {
+enum SMStates_/*CODE:NAME*/
+{
 /*CODE:STATES_ENUM*/
 };
 
@@ -11,7 +12,7 @@ struct SMInput_/*CODE:NAME*/
 
 struct SMOutput_/*CODE:NAME*/
 {
-/*CODE:INPUTS_DECLARATION*/
+/*CODE:OUTPUTS_DECLARATION*/
 };
 
 enum states state_/*CODE:NAME*/ = /*CODE:INITIAL_STATE*/;

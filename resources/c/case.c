@@ -1,3 +1,3 @@
-    case /*CODE:CASE_NAME*/:
-        /*CODE:CASE_CODE*/
-        break;
+case /*CODE:CASE_NAME*/:
+    /*CODE:CASE_CODE*/
+    break;
