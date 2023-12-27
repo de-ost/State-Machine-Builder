@@ -17,10 +17,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     match &state_machine {
         StateMachine::Moore(machine) => {
+            checks::validate_legal_variable_name(&machine)?;
             checks::validate_unique_elements(&machine)?;
             checks::validate_end_states(&machine)?;
         }
         StateMachine::Mealy(machine) => {
+            checks::validate_legal_variable_name(&machine)?;
             checks::validate_unique_elements(&machine)?;
             checks::validate_end_states(&machine)?;
         }

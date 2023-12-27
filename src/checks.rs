@@ -77,3 +77,44 @@ pub fn validate_end_states<T, U>(machine: &Machine<T, U>) -> Result<(), String> 
 
     Ok(())
 }
+
+/// Check if none of the states or symbols starts with a number or are empty.
+/// This is to prevent the user from using numbers as states or symbols.
+/// The empty string is not allowed as a state or symbol.
+/// This is to prevent the user from using the empty string as a state or symbol.
+/// C and many other languages do not allow variable names to start with a number.
+pub fn validate_legal_variable_name<T, U>(machine: &Machine<T, U>) -> Result<(), String> {
+    for state in &machine.states {
+        if let Some(first_char) = state.chars().next() {
+            if first_char.is_numeric() {
+                return Err(format!("The state {} starts with a number.", state));
+            }
+        } else {
+            return Err(format!("The state {} is empty.", state));
+        }
+    }
+
+    for symbol in &machine.input_alphabet {
+        if let Some(first_char) = symbol.chars().next() {
+            if first_char.is_numeric() {
+                return Err(format!("The input {} starts with a number.", symbol));
+            }
+        } else {
+            return Err(format!("The input {} is empty.", symbol));
+        }
+    }
+
+    for symbol in &machine.output_alphabet {
+        if let Some(first_char) = symbol.chars().next() {
+            if first_char.is_numeric() {
+                return Err(format!("The output {} starts with a number.", symbol));
+            }
+        } else {
+            return Err(format!("The output {} is empty.", symbol));
+        }
+    }
+
+    // TODO check if strings do not contain spaces
+
+    Ok(())
+}
