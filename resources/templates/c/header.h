@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 enum SMStates_/*CODE:NAME*/
 {
 /*CODE:STATES_ENUM*/

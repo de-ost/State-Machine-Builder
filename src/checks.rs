@@ -4,7 +4,7 @@ This module contains functions to check the validity of the state machine.
 
 use std::collections::HashSet;
 
-use crate::state_machines::moore::MooreMachine;
+use crate::state_machines::Machine;
 
 /// Check if the elements in the config are unique.
 ///
@@ -16,7 +16,7 @@ use crate::state_machines::moore::MooreMachine;
 ///
 /// * `Ok(())` if the elements are unique.
 /// * `Err(String)` if the elements are not unique.
-pub fn check_if_config_elements_unique(config: &MooreMachine) -> Result<(), String> {
+pub fn check_if_config_elements_unique<T, U>(config: &Machine<T, U>) -> Result<(), String> {
     let mut unique_elements: HashSet<String> = HashSet::new();
     let mut duplicates: HashSet<String> = HashSet::new();
 
