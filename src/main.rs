@@ -94,4 +94,17 @@ mod test {
 
         assert!(val.is_ok());
     }
+
+    #[test]
+    fn test_validate_legal_variable_name_moore() {
+        let yaml_str = include_str!("../resources/test_moore.yaml");
+        let state_machine = parse_yaml(&yaml_str).unwrap();
+
+        let val = match state_machine {
+            StateMachine::Moore(m) => checks::validate_legal_variable_name(&m),
+            _ => panic!("Wrong state machine type."),
+        };
+
+        assert!(val.is_ok());
+    }
 }

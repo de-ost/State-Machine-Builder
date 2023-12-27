@@ -3,20 +3,20 @@ states:
   - "q2"
   - "q3"
 input_alphabet:
-  - "0"
-  - "1"
+  - "i0"
+  - "i1"
 transitions:
   - current_state: "q1"
-    read_symbol: ["0"]
+    read_symbol: ["i0"]
     new_state: "q2"
   - current_state: "q2"
-    read_symbol: ["1"]
+    read_symbol: ["i1"]
     new_state: "q3"
 output_function:
   - current_state: q1
-    output_symbol: "0"
+    output_symbol: "o5"
 start_state: "q1"
 end_states:
   - "q3"
 output_alphabet:
-  - "5"
+  - "o5"
