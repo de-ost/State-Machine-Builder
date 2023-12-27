@@ -38,7 +38,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 fn parse_yaml(yaml_str: &str) -> StateMachine {
     let moore_machine: Result<MooreMachine, _> = serde_yaml::from_str(&yaml_str);
-
     let mealy_machine: Result<MealyMachine, _> = serde_yaml::from_str(&yaml_str);
 
     // Check if the YAML file contains a Moore or a Mealy machine.
