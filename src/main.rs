@@ -1,4 +1,4 @@
-use std::{fs, process};
+use std::fs;
 
 mod argument_parser;
 use crate::argument_parser::Cli;
