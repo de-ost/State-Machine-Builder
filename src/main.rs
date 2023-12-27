@@ -45,8 +45,7 @@ fn parse_yaml(yaml_str: &str) -> Result<StateMachine, &'static str> {
         (Ok(moore_machine), Err(_)) => Ok(StateMachine::Moore(moore_machine)),
         (Err(_), Ok(mealy_machine)) => Ok(StateMachine::Mealy(mealy_machine)),
         (Err(_), Err(_)) => Err(
-            "The YAML file does not contain a Moore or a Mealy machine. \
-                Please check the syntax of the file.",
+            "The YAML file does not contain a Moore or a Mealy machine. Please check the syntax of the file.",
         ),
         (Ok(_), Ok(_)) => Err("The YAML file contains both a Moore and a Mealy machine."),
     }
