@@ -7,11 +7,10 @@ mod checks;
 use crate::checks::check_if_config_elements_unique;
 
 use clap::Parser;
-use state_machines::{StateMachine, MealyMachine};
+use state_machines::{MealyMachine, StateMachine};
 
 mod state_machines;
 use crate::state_machines::MooreMachine;
-
 
 mod c_generator;
 use crate::c_generator::generate_c;
@@ -38,11 +37,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn parse_yaml(yaml_str: &str) -> StateMachine {
-    let moore_machine: Result<MooreMachine, _> =
-        serde_yaml::from_str(&yaml_str);
+    let moore_machine: Result<MooreMachine, _> = serde_yaml::from_str(&yaml_str);
 
-    let mealy_machine: Result<MealyMachine, _> =
-        serde_yaml::from_str(&yaml_str);
+    let mealy_machine: Result<MealyMachine, _> = serde_yaml::from_str(&yaml_str);
 
     // Check if the YAML file contains a Moore or a Mealy machine.
     let state_machine = match (moore_machine, mealy_machine) {
@@ -68,8 +65,7 @@ mod test {
     #[test]
     fn test_parse_moore_yaml() {
         let yaml_str = include_str!("../resources/test_moore.yaml");
-        let moore_machine: Result<MooreMachine, _> =
-            serde_yaml::from_str(&yaml_str);
+        let moore_machine: Result<MooreMachine, _> = serde_yaml::from_str(&yaml_str);
 
         assert!(moore_machine.is_ok());
     }
@@ -77,8 +73,7 @@ mod test {
     #[test]
     fn test_parse_not_mealy_yaml() {
         let yaml_str = include_str!("../resources/test_moore.yaml");
-        let mealy_machine: Result<MealyMachine, _> =
-            serde_yaml::from_str(&yaml_str);
+        let mealy_machine: Result<MealyMachine, _> = serde_yaml::from_str(&yaml_str);
 
         assert!(mealy_machine.is_err());
     }
@@ -88,9 +83,11 @@ mod test {
         let yaml_str = include_str!("../resources/test_moore.yaml");
         let state_machine = parse_yaml(&yaml_str);
 
-        match state_machine {
-            StateMachine::Moore(_) => {}
+        let val = match state_machine {
+            StateMachine::Moore(m) => check_if_config_elements_unique(&m),
             _ => panic!("Wrong state machine type."),
-        }
+        };
+
+        assert!(val.is_ok());
     }
 }
