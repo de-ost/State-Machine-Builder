@@ -1,6 +1,7 @@
 mod argument_parser;
 mod c_generator;
 mod checks;
+mod files;
 mod state_machines;
 
 use argument_parser::Cli;
@@ -17,18 +18,26 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     match &state_machine {
         StateMachine::Moore(machine) => {
-            checks::validate_legal_variable_name(&machine)?;
-            checks::validate_unique_elements(&machine)?;
-            checks::validate_end_states(&machine)?;
+            checks::validate_legal_variable_name(machine)?;
+            checks::validate_unique_elements(machine)?;
+            checks::validate_end_states(machine)?;
         }
         StateMachine::Mealy(machine) => {
-            checks::validate_legal_variable_name(&machine)?;
-            checks::validate_unique_elements(&machine)?;
-            checks::validate_end_states(&machine)?;
+            checks::validate_legal_variable_name(machine)?;
+            checks::validate_unique_elements(machine)?;
+            checks::validate_end_states(machine)?;
         }
     };
 
-    c_generator::generate(&name, &state_machine)?;
+    let path = match cli.output {
+        Some(path) => path,
+        None => "./".into(),
+    };
+
+    let files = files::Files::new(path);
+    let c_files = c_generator::generate(&name, &state_machine, files)?;
+
+    c_files.write()?;
 
     Ok(())
 }

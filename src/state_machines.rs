@@ -34,7 +34,7 @@ pub struct MooreTransition {
 #[derive(Debug, Deserialize)]
 pub struct MooreOutputFunction {
     pub current_state: String, // q
-    pub output_symbol: String, // o
+    pub output_symbol: Vec<String>, // o
 }
 
 /// Represents a transition in a Mealy machine.

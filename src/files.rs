@@ -30,6 +30,8 @@ impl Files {
 
     /// Writes the files to the directory. Returns a message.
     pub fn write(&self) -> Result<String, std::io::Error> {
+        std::fs::create_dir_all(&self.path)?;
+
         for file in &self.files {
             let path = self.path.join(&file.name);
             std::fs::write(path, &file.content)?;

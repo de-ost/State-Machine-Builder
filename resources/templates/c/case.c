@@ -1,3 +1,4 @@
-case /*CODE:CASE_NAME*/:
+    case /*CODE:CASE_NAME*/:
     /*CODE:CASE_CODE*/
     break;
+    

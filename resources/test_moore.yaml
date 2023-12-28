@@ -7,16 +7,17 @@ input_alphabet:
   - "i1"
 transitions:
   - current_state: "q1"
-    read_symbol: ["i0"]
+    read_symbol: ["i0", "i1"]
     new_state: "q2"
   - current_state: "q2"
     read_symbol: ["i1"]
     new_state: "q3"
 output_function:
   - current_state: q1
-    output_symbol: "o5"
+    output_symbol: ["o5", "o6"]
 start_state: "q1"
 end_states:
   - "q3"
 output_alphabet:
   - "o5"
+  - "o6"

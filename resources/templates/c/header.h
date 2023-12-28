@@ -17,8 +17,8 @@ struct SMOutput_/*CODE:NAME*/
 /*CODE:OUTPUTS_DECLARATION*/
 };
 
-enum states state_/*CODE:NAME*/ = /*CODE:INITIAL_STATE*/;
+enum SMStates_/*CODE:NAME*/ state_/*CODE:NAME*/ = /*CODE:INITIAL_STATE*/;
 
 void sm_/*CODE:NAME*/ ( enum sm_states_/*CODE:NAME*/ *state,
-                        struct SMInput_/*CODE:NAME*/ input,
-                        struct SMOutput_/*CODE:NAME*/ *output);
+    struct SMInput_/*CODE:NAME*/ input,
+    struct SMOutput_/*CODE:NAME*/ *output);
