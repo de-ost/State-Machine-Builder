@@ -118,3 +118,94 @@ pub fn validate_legal_variable_name<T, U>(machine: &Machine<T, U>) -> Result<(),
 
     Ok(())
 }
+
+#[cfg(test)]
+mod test {
+    use crate::state_machines::MooreMachine;
+
+    use super::*;
+
+    fn create_moore_machine() -> MooreMachine {
+        let yaml_str = include_str!("../resources/test_moore.yaml");
+        let moore_machine = serde_yaml::from_str(&yaml_str);
+        moore_machine.unwrap()
+    }
+
+    #[test]
+    fn test_validate_unique_elements() {
+        let machine = &create_moore_machine();
+
+        assert!(validate_unique_elements(&machine).is_ok());
+    }
+
+    #[test]
+    fn test_validate_unique_elements_duplicate_states() {
+        let mut machine = create_moore_machine();
+        machine.states = vec!["A".to_string(), "B".to_string(), "A".to_string()];
+
+        assert!(validate_unique_elements(&machine).is_err());
+    }
+
+    #[test]
+    fn test_validate_unique_elements_duplicate_input_alphabet() {
+        let mut machine = create_moore_machine();
+        machine.input_alphabet = vec!["a".to_string(), "b".to_string(), "a".to_string()];
+
+        assert!(validate_unique_elements(&machine).is_err());
+    }
+
+    #[test]
+    fn test_validate_unique_elements_duplicate_output_alphabet() {
+        let mut machine = create_moore_machine();
+        machine.output_alphabet = vec!["o0".to_string(), "o1".to_string(), "o0".to_string()];
+
+        assert!(validate_unique_elements(&machine).is_err());
+    }
+
+    #[test]
+    fn test_validate_end_states() {
+        let machine = &create_moore_machine();
+
+        assert!(validate_end_states(&machine).is_ok());
+    }
+
+    #[test]
+    fn test_validate_end_states_not_subset() {
+        let mut machine = create_moore_machine();
+        machine.states = vec!["A".to_string(), "B".to_string()];
+        machine.end_states = vec!["C".to_string()];
+
+        assert!(validate_end_states(&machine).is_err());
+    }
+
+    #[test]
+    fn test_validate_legal_variable_name() {
+        let machine = &create_moore_machine();
+
+        assert!(validate_legal_variable_name(&machine).is_ok());
+    }
+
+    #[test]
+    fn test_validate_legal_variable_name_state_starts_with_number() {
+        let mut machine = create_moore_machine();
+        machine.states = vec!["1".to_string(), "B".to_string()];
+
+        assert!(validate_legal_variable_name(&machine).is_err());
+    }
+
+    #[test]
+    fn test_validate_legal_variable_name_state_empty() {
+        let mut machine = create_moore_machine();
+        machine.states = vec!["".to_string(), "B".to_string()];
+
+        assert!(validate_legal_variable_name(&machine).is_err());
+    }
+
+    #[test]
+    fn test_validate_legal_variable_name_input_starts_with_number() {
+        let mut machine = create_moore_machine();
+        machine.input_alphabet = vec!["1".to_string(), "b".to_string()];
+
+        assert!(validate_legal_variable_name(&machine).is_err());
+    }
+}
