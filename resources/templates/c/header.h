@@ -22,3 +22,5 @@ enum SMStates_/*CODE:NAME*/ state_/*CODE:NAME*/ = /*CODE:INITIAL_STATE*/;
 void sm_/*CODE:NAME*/ ( enum sm_states_/*CODE:NAME*/ *state,
     struct SMInput_/*CODE:NAME*/ input,
     struct SMOutput_/*CODE:NAME*/ *output);
+
+bool sm_/*CODE:NAME*/_is_end_state(enum sm_states_/*CODE:NAME*/ state);

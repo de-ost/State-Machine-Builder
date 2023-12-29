@@ -12,3 +12,7 @@ void sm_/*CODE:NAME*/ (enum SMStates_/*CODE:NAME*/ *state,
         break;
     }
 }
+
+bool sm_/*CODE:NAME*/_is_end_state(enum sm_states_/*CODE:NAME*/ state){
+    return /*CODE:END_STATE*/;
+}

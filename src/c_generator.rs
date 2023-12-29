@@ -7,8 +7,8 @@ based on the state machine's type (Moore or Mealy).
 The generated code is written to a file or directory.
 */
 
-use crate::state_machines::{Machine, MooreMachine, StateMachine};
 use crate::files::Files;
+use crate::state_machines::{Machine, MooreMachine, StateMachine};
 
 /// The C files. Contains the header and source file content as strings.
 #[derive(Debug)]
@@ -19,7 +19,11 @@ struct CFiles {
 
 /// Generates the C code for the state machine. The code is written to a file or directory.
 /// The name is used for the file name.
-pub fn generate(name: &str, state_machine: &StateMachine, mut files: Files) -> Result<Files, String> {
+pub fn generate(
+    name: &str,
+    state_machine: &StateMachine,
+    mut files: Files,
+) -> Result<Files, String> {
     let mut c_files = CFiles {
         header: include_str!("../resources/templates/c/header.h").to_string(),
         source: include_str!("../resources/templates/c/source.c").to_string(),
@@ -32,12 +36,14 @@ pub fn generate(name: &str, state_machine: &StateMachine, mut files: Files) -> R
         StateMachine::Moore(m) => {
             replace_header_code(&m, &mut c_files);
             reset_output(&mut c_files, &m);
+            end_states(&mut c_files, &m);
             let cases = moore::all_cases(&m);
             replace_code(&mut c_files, "CASE", &cases);
         }
         StateMachine::Mealy(m) => {
             replace_header_code(&m, &mut c_files);
             reset_output(&mut c_files, &m);
+            end_states(&mut c_files, &m);
             // TODO Implement Mealy machine.
             return Err("Mealy machines are not supported yet.".to_string());
         }
@@ -101,6 +107,21 @@ fn reset_output<T, O>(c_file: &mut CFiles, m: &Machine<T, O>) {
     }
 
     replace_code(c_file, "RESET_OUTPUT", &reset);
+}
+
+fn end_states<T, O>(c_file: &mut CFiles, m: &Machine<T, O>) {
+    let end_states = m
+        .end_states
+        .iter()
+        .map(|s| format!("(state == {})", s))
+        .collect::<Vec<String>>()
+        .join(" || ");
+
+    if end_states.is_empty() {
+        replace_code(c_file, "END_STATE", "false");
+    } else {
+        replace_code(c_file, "END_STATE", &end_states);
+    }
 }
 
 mod moore {
